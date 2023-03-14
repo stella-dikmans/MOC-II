@@ -18,7 +18,7 @@ maybe we could continue with our previouos idea of printing entry-tickets or rec
 
 *Description:* This is a guerilla stamp. When the user presses the button a speaker is activated, and the GPS location of the user is added to the MOC Map as you stamp a “thing”. The “thing” the user is stamping should be related to colonialism or ecological imperialism. The stamp is a QR code that allows the user to see the tagged locations of the different MOC spots.
 
-<img src="../imagery/team.jpg" alt="drawing" width="800"/>
+<img src="/imagery/team.jpg" width="600" >
 
 **what we provide** 
 
