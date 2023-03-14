@@ -47,20 +47,20 @@ speaker;  sd-card holder / MP3 shield to store the sounds file
 
 # how we get there - in practice
 
-<img src="../imagery/team.jpg" alt="drawing" width="800"/>
+<img src="/imagery/team.jpg" alt="drawing" width="600"/>
 
 ### Cardboard prototype
 
 The push button has to be pressed to stamp something and simultaneous to make the sound and call on the attention of others (to what is being stamped - QR code). So before we moved on to 3D softwares and 3D printing we built and iterated a cardboard prototype based on a “arcade style button” already at FabLab. During this time we also made sure we were already taking the necessary measurements and metrics to pass this ideation to a 3D software.
 
-<img src="../imagery/cardboard.jpg" alt="drawing" width="800"/>
+<img src="/imagery/cardboard.jpg" alt="drawing" width="600"/>
 
 ### 3D software - Rhino
 
 Translating our cardboard prototype into Rhino to be 3D printed. This was a task we did the 3 of us. Marielle and I (Carolina) are still not as proficient as Stella and wanted to learn and iterate with her. It worked out, as we kept on giving feedback on assembling, practicality, function and measurements and combining small nocks of knowledge we had between the three.
 
-<img src="../imagery/rhino.jpg" alt="drawing" width="200" alig="right"/>
-<img src="../imagery/electronics.jpg" alt="drawing" width=600"/>
+<img src="/imagery/rhino.jpg" alt="drawing" width="200" alig="right"/>
+<img src="/imagery/electronics.jpg" alt="drawing" width=600"/>
 
 ### electronics
 
@@ -68,9 +68,9 @@ We need to make a set-up that includes a ESP32, a speaker, a DFPlayer Mini (SD c
 
 We researched on some examples related to the DFPlayer Mini and Speaker. And, manged to start seing data related to the position of the GPS with the help of Edu.
 
-<img src="../imagery/essentials.jpg" alt="drawing" width="800"/>
+<img src="/imagery/essentials.jpg" alt="drawing" width="600"/>
 
-<img src="../imagery/3Dprinter.jpg" alt="drawing" width="800"/>
+<img src="/imagery/3Dprinter.jpg" alt="drawing" width="600"/>
 
 another useful **[youtube video](https://www.youtube.com/watch?v=kq2RLz65_w0)** we are inspired by. 
 
@@ -97,8 +97,8 @@ this might be our hero this time... **[Todd Treece](https://cdn-learn.adafruit.c
 
 
 
-<img src="../imagery/GPSsuccessI.jpg" alt="drawing" width="800"/>
+<img src="/imagery/GPSsuccessI.png" alt="drawing" width="600"/>
 
-<img src="../imagery/GPSsuccessI.jpg" alt="drawing" width="800"/>
+<img src="/imagery/GPSsuccessI.png" alt="drawing" width="600"/>
 
 ## References & Resources
