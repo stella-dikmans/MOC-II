@@ -47,8 +47,6 @@ speaker;  sd-card holder / MP3 shield to store the sounds file
 
 # how we get there - in practice
 
-<img src="/imagery/team.jpg" alt="drawing" width="600"/>
-
 ### Cardboard prototype
 
 The push button has to be pressed to stamp something and simultaneous to make the sound and call on the attention of others (to what is being stamped - QR code). So before we moved on to 3D softwares and 3D printing we built and iterated a cardboard prototype based on a “arcade style button” already at FabLab. During this time we also made sure we were already taking the necessary measurements and metrics to pass this ideation to a 3D software.
