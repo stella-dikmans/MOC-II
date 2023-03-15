@@ -96,14 +96,14 @@ ok, it seems possible. With the help of Edu, we compile the hardware needed to o
 
 <img src="/imagery/GPSsuccessI.png" alt="drawing" width="600"/>
 
-<img src="/imagery/GPSsuccessI.png" alt="drawing" width="600"/>
+<img src="/imagery/GPSsuccessII.png" alt="drawing" width="600"/>
 
 now it is time to see the mapping options for this data in public and real-time (turns out to be an issue!). We try out the **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** to use their maps, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. Bueno, next try, it the **[itfff](https://ifttt.com/)** service that promises multiple ways to link data to online services. Another road we take is the googlemaps **[mymaps](https://www.google.com/maps/d/u/0/?hl=en)** function. Here, we can create a google spreadsheet (from our drive) to a private map (that we can publish later on). The only thing is, the map is not updated automatically, neither is the spreadsheet (yet). So what we need is a way, code, trick to automate the data-translation from GPS to google spreadsheet AND a real-life update from google spreadsheet to the map created in mymaps. Seems like google-drive, and google spreadsheets have some interesting **[add-ons](https://www.thexs.ca/posts/how-to-update-my-map-automatically-when-the-data-changes#h.ezgq3z1p20b4)** that could make our life easy (finally). Ok, it seems to automate the process from spread-sheet to map - first moment of succcess = we see the coordinates on the map as little pins. Little downer, this automated process updates only hourly - not in real real time. But ok, es lo que hay. Somewhere we need to make compromises it seems.
 
 <img src="/imagery/maptest1.png" alt="drawing" width="600"/>
 
 
-### Buttun mechanics
+### Button mechanics
 
 ### Stamp
 
