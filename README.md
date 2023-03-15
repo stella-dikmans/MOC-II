@@ -63,13 +63,13 @@ The next morning they are ready, yet there is a lot of work to do...
 
 The button exists mainly out of two parts. The top part and the down part. The top part is quit ok, the botton part we have to adjust. Because we don't know precicely the new measures which will depend on the electronics that need to fit, we create our Rhino model (which yesterday we easily did almost exclusively with the bollean-command) again - from scratch and with Grasshopper.
 
-<img src="/grasshopper.png" alt="drawing" width=600"/>
+<img src="/imagery/grasshopper.png" alt="drawing" width=600"/>
 
 furhermore, we adjust the walls, because we want that the speaker inside will be loud outside. So gaps are kind of essential. Ok, so far so good. Again, we export the stl-file (this time a bit more precise to have a smooth rounding) and upload the CURA-files onto the sd-cards and onto the printers to let them do their work over the night (sleep is fully overrated when being a electronic device).
 
-<img src="/stl.png" alt="drawing" width=200"/>
+<img src="/imagery/stl.png" alt="drawing" width=200"/>
 
-<img src="/rhino-updated.png" alt="drawing" width=600"/>
+<img src="/imagery/rhino-updated.png" alt="drawing" width=600"/>
 
 
 ### Electronics
