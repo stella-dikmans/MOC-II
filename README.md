@@ -53,12 +53,26 @@ The button has have a push-mechanism that when pressed, stamps a surface onto th
 
 ### 3D software - Rhino
 
-Now we are translating our cardboard prototype into Rhino to be 3D printed. We do this all together, giving feedback on assembling, practicality, function and measurements and combining small dots of knowledges we have between the three of us.
+Now we are translating our cardboard prototype into Rhino to be 3D printed. We do this all together, giving feedback on assembling, practicality, function and measurements and combining small dots of knowledges we have between the three of us. We export it as an st-file and set up the CURA-file to print it in the 3D-printers over night. 
 
 <img src="/imagery/rhino.jpg" alt="drawing" width="200" alig="right"/>
+
 <img src="/imagery/electronics.jpg" alt="drawing" width=600"/>
 
-### electronics
+The next morning they are ready, yet there is a lot of work to do...
+
+The button exists mainly out of two parts. The top part and the down part. The top part is quit ok, the botton part we have to adjust. Because we don't know precicely the new measures which will depend on the electronics that need to fit, we create our Rhino model (which yesterday we easily did almost exclusively with the bollean-command) again - from scratch and with Grasshopper.
+
+<img src="/grasshopper.png" alt="drawing" width=600"/>
+
+furhermore, we adjust the walls, because we want that the speaker inside will be loud outside. So gaps are kind of essential. Ok, so far so good. Again, we export the stl-file (this time a bit more precise to have a smooth rounding) and upload the CURA-files onto the sd-cards and onto the printers to let them do their work over the night (sleep is fully overrated when being a electronic device).
+
+<img src="/stl.png" alt="drawing" width=200"/>
+
+<img src="/rhino-updated.png" alt="drawing" width=600"/>
+
+
+### Electronics
 
 *for the speaker:*
 
@@ -78,9 +92,20 @@ first things first, is it possible? we talk with Victor:
 
 what we need is to record the geolocation and the time (through a GPS in the device). There needs to be featherboard in the device. On the featherbaord, we connect a GPS that will give us the data of the geolocation and time. Then, we have to link that data to a webpage or a existing map in order t create a QR code that can be translated into a stamp and will lead to that digital interfacec. This means, we meed to access a public webserver. The question is, through which server / which computer will we be able t translate the data from the feather onto the digital platform (map...)? could be a this is mqtt (which works via publish and subscribe) technique. 
 
+ok, it seems possible. With the help of Edu, we compile the hardware needed to obtain a GPS signal. We use our adafruiit featherboard and a **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)**. We install some libraries linked to this specific GPS into our arduino app and run a few different example codes to see what we get. After few trials, it works (we have to leave the building though to get our location). So we have a GPS that gives us the date, time, longitute and altitude data. It's a start.
+
 <img src="/imagery/GPSsuccessI.png" alt="drawing" width="600"/>
 
 <img src="/imagery/GPSsuccessI.png" alt="drawing" width="600"/>
+
+now it is time to see the mapping options for this data in public and real-time (turns out to be an issue!). We try out the **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** to use their maps, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. Bueno, next try, it the **[itfff](https://ifttt.com/)** service that promises multiple ways to link data to online services. Another road we take is the googlemaps **[mymaps](https://www.google.com/maps/d/u/0/?hl=en)** function. Here, we can create a google spreadsheet (from our drive) to a private map (that we can publish later on). The only thing is, the map is not updated automatically, neither is the spreadsheet (yet). So what we need is a way, code, trick to automate the data-translation from GPS to google spreadsheet AND a real-life update from google spreadsheet to the map created in mymaps. Seems like google-drive, and google spreadsheets have some interesting **[add-ons](https://www.thexs.ca/posts/how-to-update-my-map-automatically-when-the-data-changes#h.ezgq3z1p20b4)** that could make our life easy (finally). Ok, it seems to automate the process from spread-sheet to map - first moment of succcess = we see the coordinates on the map as little pins. Little downer, this automated process updates only hourly - not in real real time. But ok, es lo que hay. Somewhere we need to make compromises it seems.
+
+<img src="/imagery/maptest1.png" alt="drawing" width="600"/>
+
+
+### Buttun mechanics
+
+### Stamp
 
 ## References & Resources
 
