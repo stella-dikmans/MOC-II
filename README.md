@@ -9,7 +9,7 @@ and in our part of the **[miro](https://miro.com/app/board/uXjVMeaB6bc=/)** we a
 
 next to the this repo, we are working also in a **[notion](https://hickory-polonium-fd1.notion.site/Marielle-Stella-Carolina-MDEF-22-23-34fdfc848ec44d93bae61fdf263d6c88)**
 
-enter our **[map](https://mapping.thexs.app/map.html?fid=1bBG6x7FzeI3VN2oWtJcZ6rMFDGfSbvbh)**
+enter our **[map](https://mapping.thexs.app/map.html?fid=1bBG6x7FzeI3VN2oWtJcZ6rMFDGfSbvbh)** to follow our guerilla-traces (it is updating only every hour - os have patience)
 
 **what we ask**
 
