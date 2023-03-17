@@ -102,16 +102,6 @@ ok, it seems possible. With the help of Edu, we compile the hardware needed to o
 
 the part that was supposed to be the most easy part (translating the GPS data into a digital platform and into a simple data-sheet) turned out to take us a whole morning of searching in old codes, reading and watching tutorials and mixing it up to create our own code. Without Daphne and all her patience this would have never worked out. And then the end of course Victor who came for half an hour and brough some order into our chaos - and sieheda, the code works. One of our main **[manuals was this](https://cdn-learn.adafruit.com/downloads/pdf/mqtt-adafruit-io-and-you.pdf)**. 
 
-What it does: 
-
-• it sets up a ***wifi*** (because we wont have a sim-card in our stamp but in order to load the data directly into the digital world, a wireless connection is needed) - thus there is the possibility of chosinng a mobile-hotspot or to add the credentials of a local wifi. 
-
-• it links the ***feather (GPS) to the adafruit IO server AND a personal account*** (that is needed to later on work with the date in multiple ways). So for this we made our **[adarfuit IO account](https://io.adafruit.com/distel/wippersnapper)** and connect our feather ESP32. To test if there is a stable connection, we make the built in LED **[blink](https://learn.adafruit.com/quickstart-adafruit-io-wippersnapper/blink-a-led)** before we continue with our arduino code. 
-
-• it ***sets up an MQTT*** that in our case equals our adafruit account. The MQTT in a network protocol, a language to enable the exchange of messages from remote locations and the digital (very important for **the Internet of Things**).
-
-• furthermore we set up a ***button function*** to make sure that the GPS data is not being uploaded onto our digital platform constantly but only when we push. = bool butState part in the code. We make sure that the publishing function is being activated when the button is pushed and released. 
-
 <details> 
 the code:
 
@@ -129,12 +119,12 @@ TinyGPSPlus gps; //Declare gps object
 #include "Adafruit_MQTT.h"
 #include "Adafruit_MQTT_Client.h"
 
-#define WLAN_SSID       "Iaac-Wifi"
-#define WLAN_PASS       "EnterIaac22@"
+#define WLAN_SSID       "wifi"
+#define WLAN_PASS       "wifi password"
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883
-#define AIO_USERNAME    "distel"
-#define AIO_KEY         "aio_oPte64H8FaOpCnMi7vJBxBEQNgFo"
+#define AIO_USERNAME    "IO username"
+#define AIO_KEY         "IO key"
 
 WiFiClient client;
 
@@ -276,15 +266,41 @@ void loop() {
 ```
 </details> 
 
+What it does atm (explanation of unknown names and words are following): 
+
+• it sets up a ***wifi*** (because we wont have a sim-card in our stamp but in order to load the data directly into the digital world, a wireless connection is needed) - thus there is the possibility of chosinng a mobile-hotspot or to add the credentials of a local wifi. 
+
+• it links the ***feather (GPS) to the adafruit IO server AND a personal account*** (that is needed to later on work with the date in multiple ways). So for this we made our **[adarfuit IO account](https://io.adafruit.com/distel/wippersnapper)** and connect our feather ESP32. To test if there is a stable connection, we make the built in LED **[blink](https://learn.adafruit.com/quickstart-adafruit-io-wippersnapper/blink-a-led)** before we continue with our arduino code. 
+
+• it ***sets up an MQTT*** that in our case equals our adafruit account. The MQTT in a network protocol, a language to enable the exchange of messages from remote locations and the digital (very important for **the Internet of Things**).
+
+• furthermore we set up a ***button function*** to make sure that the GPS data is not being uploaded onto our digital platform constantly but only when we push. = bool butState part in the code. We make sure that the publishing function is being activated when the button is pushed and released. 
+
 <img src="/imagery/IOaccount.png" alt="drawing" width="400" align="left"/>
 
-we create a ***adafruit IO account*** with ***two feeds (one for longitude and one for latitude)*** and ***one dashboard (in which both are combined)***. We see the data longitude, latitude, date and time when we push the buttom that is linked to the feather appear in our feeds and dashbard. It turns out, no need for all of that. We are making our life more complex than it is. So we rewrite our code a bit and sent *latiude,longitude*-data as one line to our ***longitude feed***. In IFTTT we edit out **[applet] (https://ifttt.com/explore/Appletsin)** (which is just the name IFTTT gave to the linking-process). We edit and say if: there is new data in the adadfruit longitude feed, then add a new row into the latitude googlesheet in our drive (folder - location). Dont get confused with the names - its all a but messed up we know.
+
+next we research platforms that enable us to mapp our feather data in on online-and-real-time-updating map (to be an issue!). We try out various road. The **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** offers a mapping fuction, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. To rewrite their code with our **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)** seems a bit overwhelming, after a few trials, we leave it to that and search for something else.
+
+we anyway create a ***adafruit IO account*** with ***two feeds (one for longitude and one for latitude)*** and ***one dashboard (in which both are combined)***. We see the data longitude, latitude, date and time when we push the buttom that is linked to the feather appear in our feeds and dashbard. It turns out, no need for all of that. We are making our life more complex than it is. So we rewrite our code just a tiny bit and sent *latiude,longitude*-data as ***one line*** to our ***longitude feed***. 
+
+The platform **[IFTTT](https://ifttt.com/)** offers multiple ways to link data to online services. One of them is the linkage of adafruit account to a googlsheet. And in google again, their googlemaps has a **[mymaps](https://www.google.com/maps/d/u/0/?hl=en)** function. In this, we can create a "private" map that be can publish but with which we can subscribe to a google spreadsheet that we make (from our drive). Problem: the map is not updated automatically, neither is the spreadsheet (yet) meaning we have to update the map manually in order to update the pins on the map. So what we need is a way, code, trick to automate the data-translation from GPS to google spreadsheet AND a real-life update from google spreadsheet to the map created in mymaps. 
+
+A little research further we stumple upon a googlesheet add-on from **[theXS mapping](https://www.thexs.ca/xsmapping)** whose service offers us to mapp the data of our googlesheet in real-time in their maps - whose are linked to google maps (yet it somehow isnt mymaps anymore - however - XSmaps is fine by me). This seems to automate the process from spread-sheet to map - first moment of succcess = we see the coordinates on the map as little pins. Little downer, this automated process updates only hourly (if you dont pay for a pro-account) - not in real real time. But ok, es lo que hay. Somewhere we need to make compromises it seems.
+
+<img src="/imagery/maptest1.png" alt="drawing" width="600"/>
+
+In IFTTT we edit out **[applet] (https://ifttt.com/explore/Appletsin)** (which is just the name IFTTT gave to the linking-process). We edit and say if: there is new data in the adadfruit longitude feed, then add a new row into the latitude googlesheet in our drive (folder - location). Dont get confused with the names - its all a but messed up we know.
 
 <img src="/imagery/IFTTT.png" alt="drawing" width="400" align="left"/>
 
 summed up:
 
 we have a button that, when pushed, sends a GPS location to an ***adafruit IO account*** with the ***feed longitude***. Via IFTTT, we send the data into a googlesheet which uses the XSmapping add-on to drop pins at the GPS data (updating it every hour). 
+
+
+*combining speaker, GPS and button* 
+
+a new code combines now also the audo-file
 
 <details> 
 the updated code:
@@ -293,23 +309,6 @@ the updated code:
 
 ```
 </details> 
-
-
-now it is time to see the mapping options for this data in public and real-time (turns out to be an issue!). We try out various road. The **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** offers a mapping fuction, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. To rewrite their code with our **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)** seems a bit overwhelming, s after a few trials, we leave it to that and search for something else.
-
-The platform **[IFTTT](https://ifttt.com/)** offers multiple ways to link data to online services. One of them is the linkage of adafruit account to a googlsheet. And in google again, their googlemaps has a **[mymaps](https://www.google.com/maps/d/u/0/?hl=en)** function. In this, we can create a "private" map that be can publish but with which we can subscribe to a google spreadsheet that we make (from our drive). Problem: the map is not updated automatically, neither is the spreadsheet (yet) meaning we have to update the map manually in order to update the pins on the map. So what we need is a way, code, trick to automate the data-translation from GPS to google spreadsheet AND a real-life update from google spreadsheet to the map created in mymaps. 
-
-A little research further we stumple upon a googlesheet add-on from **[theXS mapping](https://www.thexs.ca/xsmapping)** whose service offers us to mapp the data of our googlesheet in real-time in their mapps - whose are linked to google maps. This seems to automate the process from spread-sheet to map - first moment of succcess = we see the coordinates on the map as little pins. Little downer, this automated process updates only hourly (if you dont pay for a pro-account) - not in real real time. But ok, es lo que hay. Somewhere we need to make compromises it seems.
-
-<img src="/imagery/maptest1.png" alt="drawing" width="600"/>
-
-not to the mapping part. the website **[IFTT](https://ifttt.com/explore/welcome_to_ifttt)** offers to link data 
-
-
-
-
-*combining speaker, GPS and button* 
-
 
 
 ### thoughts on blackboxing and stupifying citizens
