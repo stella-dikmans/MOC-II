@@ -9,6 +9,8 @@ and in our part of the **[miro](https://miro.com/app/board/uXjVMeaB6bc=/)** we a
 
 next to the this repo, we are working also in a **[notion](https://hickory-polonium-fd1.notion.site/Marielle-Stella-Carolina-MDEF-22-23-34fdfc848ec44d93bae61fdf263d6c88)**
 
+enter our **[map](https://mapping.thexs.app/map.html?fid=1bBG6x7FzeI3VN2oWtJcZ6rMFDGfSbvbh)**
+
 **what we ask**
 
 we want to continue with out MOC (museum of colonialization) idea that we had a few weeks ago during  **[the first micro challenge](https://github.com/stella-dikmans/MOC)**. REDEFINITION: everywhere on the world we encounter signs of colonial-pracices that increase iniequalities. This can be linked to past practices of european colonialism, or present practices of plastic pollution. We can see this in the stattues that populate city-streets but also in the plant-hybrids(ecological impreialism). Our goal is to make these signs more visible to all of us passing them everyday. how can we provoke attention? how can we question what we take for granted? 
