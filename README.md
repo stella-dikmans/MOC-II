@@ -599,13 +599,13 @@ A little research further we stumple upon a googlesheet add-on from **[theXS map
 
 In IFTTT we edit out **[applet] (https://ifttt.com/explore/Appletsin)** (which is just the name IFTTT gave to the linking-process). We edit and say if: there is new data in the adadfruit longitude feed, then add a new row into the latitude googlesheet in our drive (folder - location). Dont get confused with the names - its all a but messed up we know.
 
-<img src="/imagery/IFTTT.png" alt="drawing" width="400"/>
+<img src="/imagery/IFTTT.png" alt="drawing" width="4500"/>
 
 summed up:
 
 we have a button that, when pushed, sends a GPS location to an ***adafruit IO account*** with the ***feed longitude***. Via IFTTT, we send the data into a googlesheet which uses the XSmapping add-on to drop pins at the GPS data (updating it every hour). 
 
-<img src="/imagery/triangle.png" alt="drawing" width="400" align="left"/>
+<img src="/imagery/triangle.png" alt="drawing" width="500"/>
 
 *combining speaker, GPS and button* 
 
