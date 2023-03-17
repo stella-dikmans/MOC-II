@@ -29,7 +29,7 @@ attributes: portable; interactive; respectful; fun; triggering
 
 this time we come up with the idea of a (guerilla) stamp / attention-button a la **[that was easy](https://www.youtube.com/watch?v=NojiCsZQSr8)**. A person pushes our button that at the same time is a stamp. Thus pressing onto the button leaves a print on the surface the button is put upon. Through the push-mechanism, speaker is activated that says something (provoking) and the GPS location of the user is added to a *MOC Map*. The image the stamp stamps is a QR-code (and potentially a provocing sentence) that leads directlly to the map on which the user will encounter their location as a pin as well as all ther pins of prior users. 
 
-<img src="/imagery/team.jpg" width="600" >
+<img src="/imagery/team.jpg" width="400" >
 
 **what we provide** 
 
@@ -59,6 +59,8 @@ Now we are translating our cardboard prototype into Rhino to be 3D printed. We d
 
 <img src="/imagery/electronics.jpg" alt="drawing" width="600"/>
 
+<img src="/imagery/3Dprinter.jpg" width="400" >
+
 The next morning they are ready, yet there is a lot of work to do...
 
 The button exists mainly out of two parts. The top part and the down part. The top part is quit ok, the botton part we have to adjust. Because we don't know precicely the new measures which will depend on the electronics that need to fit, we create our Rhino model (which yesterday we easily did almost exclusively with the bollean-command) again - from scratch and with Grasshopper.
@@ -78,10 +80,6 @@ furhermore, we adjust the walls, because we want that the speaker inside will be
 We need to make a set-up that includes a ESP32, a speaker, a DFPlayer Mini (SD card with MP3 files), a GPS and a button.
 
 We researched on some examples related to the DFPlayer Mini and Speaker. And, manged to start seing data related to the position of the GPS with the help of Edu.
-
-<img src="/imagery/essentials.jpg" alt="drawing" width="600"/>
-
-<img src="/imagery/3Dprinter.jpg" alt="drawing" width="600"/>
 
 Our hardware is all set-up and we double check connections. We first try to do a circuit with the button and LED on the bread board and then switch the LED and button for a big dome button, until there everything goes smoothly, but once we incorporate the DFPlayer Mini and the Speaker things are getting complicated because of the library manager of the Arduino IDE. The code s constantly warning us of an error: *SoftwareSerial.h could not be found*. Even though the *SoftwareSerial library* is included in the Arduino IDE, and the user does not need to download it separately, the library is not being recognized. Together with Adai and Mikel we try different libraries and searched for different examples that used this library to see how an error like this can be surpassed. Finally we find a library that could be replaced by SoftwareSerial, the *DFRobotDFPlayerMini.h.*
 
@@ -225,7 +223,8 @@ void printDetail(uint8_t type, int value){
 
 then, we need to put together the speaker with the button + LED combo of the Dome button. So the audio does not run in a loop but every time we press the button.
 
-</details> 
+
+<details>
 
 ```
 // constants won't change. They're used here to set pin numbers:
@@ -645,8 +644,8 @@ TinyGPSPlus gps;        //Declare gps object
 #define WLAN_PASS "EnterIaac22@"
 #define AIO_SERVER "io.adafruit.com"
 #define AIO_SERVERPORT 1883
-#define AIO_USERNAME "distel"
-#define AIO_KEY "aio_TepO334bZsxG6yr0rbkNh1ceuzMY"
+#define AIO_USERNAME "IO username"
+#define AIO_KEY "IO key"
 
 #define RXD2 16
 #define TXD2 17
@@ -818,7 +817,7 @@ void loop() {
 </details> 
 
 
-### thoughts on blackboxing and stupifying citizens
+### some thoughts on blackboxing and stupifying citizens
 
 focussing on protocolls rather than on platforms might be sometimes a more time intense way but is is better. What all the platforms we encountered in the last few days are doing, is putting their brandmark onto simple and open-to-the-public funcions. Companies like googe, adafruit, IFTT are hiding these functions behind new names (e.g. renaming topic int feed or dashboard). 
 
