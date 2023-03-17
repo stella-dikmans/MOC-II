@@ -102,8 +102,9 @@ ok, it seems possible. With the help of Edu, we compile the hardware needed to o
 
 the part that was supposed to be the most easy part (translating the GPS data into a digital platform and into a simple data-sheet) turned out to take us a whole morning of searching in old codes, reading and watching tutorials and mixing it up to create our own code. Without Daphne and all her patience this would have never worked out. And then the end of course Victor who came for half an hour and brough some order into our chaos - and sieheda, the code works. One of our main **[manuals was this](https://cdn-learn.adafruit.com/downloads/pdf/mqtt-adafruit-io-and-you.pdf)**. 
 
-<details> 
 the code:
+
+<details> 
 
 ```
 
@@ -276,8 +277,7 @@ What it does atm (explanation of unknown names and words are following):
 
 • furthermore we set up a ***button function*** to make sure that the GPS data is not being uploaded onto our digital platform constantly but only when we push. = bool butState part in the code. We make sure that the publishing function is being activated when the button is pushed and released. 
 
-<img src="/imagery/IOaccount.png" alt="drawing" width="400" align="left"/>
-
+<img src="/imagery/adafruiitIO.png" alt="drawing" width="400" align="left"/>
 
 next we research platforms that enable us to mapp our feather data in on online-and-real-time-updating map (to be an issue!). We try out various road. The **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** offers a mapping fuction, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. To rewrite their code with our **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)** seems a bit overwhelming, after a few trials, we leave it to that and search for something else.
 
@@ -297,6 +297,7 @@ summed up:
 
 we have a button that, when pushed, sends a GPS location to an ***adafruit IO account*** with the ***feed longitude***. Via IFTTT, we send the data into a googlesheet which uses the XSmapping add-on to drop pins at the GPS data (updating it every hour). 
 
+<img src="/imagery/triangle.png" alt="drawing" width="400" align="left"/>
 
 *combining speaker, GPS and button* 
 
