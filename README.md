@@ -75,7 +75,7 @@ furhermore, we adjust the walls, because we want that the speaker inside will be
 
 ### Electronics
 
-*for the speaker:*
+**for the speaker:**
 
 We need to make a set-up that includes a ESP32, a speaker, a DFPlayer Mini (SD card with MP3 files), a GPS and a button.
 
@@ -404,7 +404,7 @@ void printDetail(uint8_t type, int value){
 ```
 </details> 
 
-*for the GPS:*
+**for the GPS:**
 
 first things first, is it possible? we talk with Victor:
 
