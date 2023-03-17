@@ -29,7 +29,7 @@ attributes: portable; interactive; respectful; fun; triggering
 
 this time we come up with the idea of a (guerilla) stamp / attention-button a la **[that was easy](https://www.youtube.com/watch?v=NojiCsZQSr8)**. A person pushes our button that at the same time is a stamp. Thus pressing onto the button leaves a print on the surface the button is put upon. Through the push-mechanism, speaker is activated that says something (provoking) and the GPS location of the user is added to a *MOC Map*. The image the stamp stamps is a QR-code (and potentially a provocing sentence) that leads directlly to the map on which the user will encounter their location as a pin as well as all ther pins of prior users. 
 
-<img src="/imagery/team.jpg" width="400" >
+<img src="/imagery/teams.png" width="400" >
 
 **what we provide** 
 
@@ -266,15 +266,15 @@ void loop() {
 ok, finally we have one code that connects the button with the audio-file:
 
 
+PINS USED:
 
-    PINS USED:
-    button 19
+button 19
 
-    LED 18
+LED 18
 
-    RXD2 16
+RXD2 16
 
-    TXD2 17
+TXD2 17
 
 <details> 
 
@@ -595,9 +595,9 @@ What it does atm (explanation of unknown names and words are following):
 
 • furthermore we set up a ***button function*** to make sure that the GPS data is not being uploaded onto our digital platform constantly but only when we push. = bool butState part in the code. We make sure that the publishing function is being activated when the button is pushed and released. 
 
-<img src="/imagery/adafruiitIO.png" alt="drawing" width="400" align="left"/>
-
 next we research platforms that enable us to mapp our feather data in on online-and-real-time-updating map (to be an issue!). We try out various road. The **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** offers a mapping fuction, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. To rewrite their code with our **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)** seems a bit overwhelming, after a few trials, we leave it to that and search for something else.
+
+<img src="/imagery/adafruiitIO.png" alt="drawing" width="600"/>
 
 we anyway create a ***adafruit IO account*** with ***two feeds (one for longitude and one for latitude)*** and ***one dashboard (in which both are combined)***. We see the data longitude, latitude, date and time when we push the buttom that is linked to the feather appear in our feeds and dashbard. It turns out, no need for all of that. We are making our life more complex than it is. So we rewrite our code just a tiny bit and sent *latiude,longitude*-data as ***one line*** to our ***longitude feed***. 
 
@@ -609,7 +609,7 @@ A little research further we stumple upon a googlesheet add-on from **[theXS map
 
 In IFTTT we edit out **[applet] (https://ifttt.com/explore/Appletsin)** (which is just the name IFTTT gave to the linking-process). We edit and say if: there is new data in the adadfruit longitude feed, then add a new row into the latitude googlesheet in our drive (folder - location). Dont get confused with the names - its all a but messed up we know.
 
-<img src="/imagery/IFTTT.png" alt="drawing" width="400" align="left"/>
+<img src="/imagery/IFTTT.png" alt="drawing" width="400"/>
 
 summed up:
 
