@@ -71,7 +71,6 @@ furhermore, we adjust the walls, because we want that the speaker inside will be
 
 <img src="/imagery/rhino-updated.png" alt="drawing" width="600"/>
 
-
 ### Electronics
 
 *for the speaker:*
@@ -84,7 +83,327 @@ We researched on some examples related to the DFPlayer Mini and Speaker. And, ma
 
 <img src="/imagery/3Dprinter.jpg" alt="drawing" width="600"/>
 
-another useful **[youtube video](https://www.youtube.com/watch?v=kq2RLz65_w0)** we are inspired by. 
+Our hardware is all set-up and we double check connections. We first try to do a circuit with the button and LED on the bread board and then switch the LED and button for a big dome button, until there everything goes smoothly, but once we incorporate the DFPlayer Mini and the Speaker things are getting complicated because of the library manager of the Arduino IDE. The code s constantly warning us of an error: *SoftwareSerial.h could not be found*. Even though the *SoftwareSerial library* is included in the Arduino IDE, and the user does not need to download it separately, the library is not being recognized. Together with Adai and Mikel we try different libraries and searched for different examples that used this library to see how an error like this can be surpassed. Finally we find a library that could be replaced by SoftwareSerial, the *DFRobotDFPlayerMini.h.*
+
+The SD card has to be empty with the exception of a single folder named mp3 were the audio file must placed to be played in a loop. 
+
+<details>
+
+```
+/***************************************************
+DFPlayer - A Mini MP3 Player For Arduino
+ <https://www.dfrobot.com/index.php?route=product/product&product_id=1121>
+
+ ***************************************************
+ This example shows the basic function of library for DFPlayer.
+
+ Created 2016-12-07
+ By [Angelo qiao](Angelo.qiao@dfrobot.com)
+
+ GNU Lesser General Public License.
+ See <http://www.gnu.org/licenses/> for details.
+ All above must be included in any redistribution
+ ****************************************************/
+
+/***********Notice and Trouble shooting***************
+ 1.Connection and Diagram can be found here
+ <https://www.dfrobot.com/wiki/index.php/DFPlayer_Mini_SKU:DFR0299#Connection_Diagram>
+ 2.This code is tested on Arduino Uno, Leonardo, Mega boards.
+ ****************************************************/
+
+#include "Arduino.h"
+//#include "SoftwareSerial.h"
+#include "DFRobotDFPlayerMini.h"
+
+#define RXD2 16
+#define TXD2 17
+
+HardwareSerial mySoftwareSerial(1); // RX, TX
+
+//mySoftwareSerial(10, 11); // RX, TX
+
+
+DFRobotDFPlayerMini myDFPlayer;
+void printDetail(uint8_t type, int value);
+
+void setup()
+{
+  mySoftwareSerial.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  //Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
+
+  //Serial1.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  Serial.begin(115200);
+
+  Serial.println();
+  Serial.println(F("DFRobot DFPlayer Mini Demo"));
+  Serial.println(F("Initializing DFPlayer ... (May take 3~5 seconds)"));
+
+  if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
+    Serial.println(F("Unable to begin:"));
+    Serial.println(F("1.Please recheck the connection!"));
+    Serial.println(F("2.Please insert the SD card!"));
+    while(true);
+  }
+  Serial.println(F("DFPlayer Mini online."));
+
+  myDFPlayer.volume(30);  //Set volume value. From 0 to 30
+  myDFPlayer.playMp3Folder(1);
+  //myDFPlayer.play(1);  //Play the first mp3
+}
+
+void loop()
+{
+  static unsigned long timer = millis();
+
+  if (millis() - timer > 3000) {
+    timer = millis();
+    myDFPlayer.next();  //Play next mp3 every 3 second.
+  }
+
+  if (myDFPlayer.available()) {
+    printDetail(myDFPlayer.readType(), myDFPlayer.read()); //Print the detail message from DFPlayer to handle different errors and states.
+  }
+}
+
+void printDetail(uint8_t type, int value){
+  switch (type) {
+    case TimeOut:
+      Serial.println(F("Time Out!"));
+      break;
+    case WrongStack:
+      Serial.println(F("Stack Wrong!"));
+      break;
+    case DFPlayerCardInserted:
+      Serial.println(F("Card Inserted!"));
+      break;
+    case DFPlayerCardRemoved:
+      Serial.println(F("Card Removed!"));
+      break;
+    case DFPlayerCardOnline:
+      Serial.println(F("Card Online!"));
+      break;
+    case DFPlayerPlayFinished:
+      Serial.print(F("Number:"));
+      Serial.print(value);
+      Serial.println(F(" Play Finished!"));
+      break;
+    case DFPlayerError:
+      Serial.print(F("DFPlayerError:"));
+      switch (value) {
+        case Busy:
+          Serial.println(F("Card not found"));
+          break;
+        case Sleeping:
+          Serial.println(F("Sleeping"));
+          break;
+        case SerialWrongStack:
+          Serial.println(F("Get Wrong Stack"));
+          break;
+        case CheckSumNotMatch:
+          Serial.println(F("Check Sum Not Match"));
+          break;
+        case FileIndexOut:
+          Serial.println(F("File Index Out of Bound"));
+          break;
+        case FileMismatch:
+          Serial.println(F("Cannot Find File"));
+          break;
+        case Advertise:
+          Serial.println(F("In Advertise"));
+          break;
+        default:
+          break;
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+```
+</details> 
+
+then, we need to put together the speaker with the button + LED combo of the Dome button. So the audio does not run in a loop but every time we press the button.
+
+</details> 
+
+```
+// constants won't change. They're used here to set pin numbers:
+const int buttonPin = 13;  // the number of the pushbutton pin
+const int ledPin = 12;    // the number of the LED pin
+
+// variables will change:
+int buttonState = 0;  // variable for reading the pushbutton status
+
+void setup() {
+  // initialize the LED pin as an output:
+  pinMode(ledPin, OUTPUT);
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonPin, INPUT);
+  Serial.begin(9600);
+}
+
+void loop() {
+  // read the state of the pushbutton value:
+  buttonState = digitalRead(buttonPin);
+
+  // check if the pushbutton is pressed. If it is, the buttonState is HIGH:
+  if (buttonState == HIGH) {
+    // turn LED on:
+    Serial.println("button pressed"),
+    digitalWrite(ledPin, HIGH);
+  } else {
+    // turn LED off:
+    digitalWrite(ledPin, LOW);
+    Serial.println("not pressed");
+  }
+}
+
+```
+</details> 
+
+
+
+ok, finally we have one code that connects the button with the audio-file:
+
+
+
+    PINS USED:
+    button 19
+
+    LED 18
+
+    RXD2 16
+
+    TXD2 17
+
+<details> 
+
+```
+
+
+#include "Arduino.h"
+//#include "SoftwareSerial.h"
+#include "DFRobotDFPlayerMini.h"
+
+#define RXD2 16
+#define TXD2 17
+const int buttonPin = 19;  // the number of the pushbutton pin
+const int ledPin = 18;    // the number of the LED pin
+
+HardwareSerial mySoftwareSerial(1); // RX, TX
+//mySoftwareSerial(10, 11); // RX, TX
+int buttonState = 0;  // variable for reading the pushbutton status
+
+DFRobotDFPlayerMini myDFPlayer;
+void printDetail(uint8_t type, int value);
+
+void setup()
+{
+  mySoftwareSerial.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  //Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
+
+  //Serial1.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  Serial.begin(115200);
+
+  Serial.println();
+  Serial.println(F("DFRobot DFPlayer Mini Demo"));
+  Serial.println(F("Initializing DFPlayer ... (May take 3~5 seconds)"));
+
+  // initialize the LED pin as an output:
+  pinMode(ledPin, OUTPUT);
+  // initialize the pushbutton pin as an input:
+  pinMode(buttonPin, INPUT);
+  Serial.begin(9600);
+
+  if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
+    Serial.println(F("Unable to begin:"));
+    Serial.println(F("1.Please recheck the connection!"));
+    Serial.println(F("2.Please insert the SD card!"));
+    while(true);
+  }
+  Serial.println(F("DFPlayer Mini online."));
+
+  myDFPlayer.volume(30);  //Set volume value. From 0 to 30
+  myDFPlayer.playMp3Folder(1);
+  //myDFPlayer.play(1);  //Play the first mp3
+}
+
+void loop()
+{
+  buttonState = digitalRead(buttonPin);
+  if (buttonState == HIGH) {  
+  static unsigned long timer = millis();
+
+  if (millis() - timer > 3000) {
+    timer = millis();
+    myDFPlayer.next();  //Play next mp3 every 3 second.
+  }
+
+  if (myDFPlayer.available()) {
+    printDetail(myDFPlayer.readType(), myDFPlayer.read()); //Print the detail message from DFPlayer to handle different errors and states.
+  }
+}
+}
+
+
+void printDetail(uint8_t type, int value){
+  switch (type) {
+    case TimeOut:
+      Serial.println(F("Time Out!"));
+      break;
+    case WrongStack:
+      Serial.println(F("Stack Wrong!"));
+      break;
+    case DFPlayerCardInserted:
+      Serial.println(F("Card Inserted!"));
+      break;
+    case DFPlayerCardRemoved:
+      Serial.println(F("Card Removed!"));
+      break;
+    case DFPlayerCardOnline:
+      Serial.println(F("Card Online!"));
+      break;
+    case DFPlayerPlayFinished:
+      Serial.print(F("Number:"));
+      Serial.print(value);
+      Serial.println(F(" Play Finished!"));
+      break;
+    case DFPlayerError:
+      Serial.print(F("DFPlayerError:"));
+      switch (value) {
+        case Busy:
+          Serial.println(F("Card not found"));
+          break;
+        case Sleeping:
+          Serial.println(F("Sleeping"));
+          break;
+        case SerialWrongStack:
+          Serial.println(F("Get Wrong Stack"));
+          break;
+        case CheckSumNotMatch:
+          Serial.println(F("Check Sum Not Match"));
+          break;
+        case FileIndexOut:
+          Serial.println(F("File Index Out of Bound"));
+          break;
+        case FileMismatch:
+          Serial.println(F("Cannot Find File"));
+          break;
+        case Advertise:
+          Serial.println(F("In Advertise"));
+          break;
+        default:
+          break;
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+```
+</details> 
 
 *for the GPS:*
 
@@ -301,12 +620,199 @@ we have a button that, when pushed, sends a GPS location to an ***adafruit IO ac
 
 *combining speaker, GPS and button* 
 
-a new code combines now also the audo-file
+We have two parts at the moment. The audio and the GPS and both have to be combined in noe code that is triggered by the same button.
+
+thus, our new code combines a push-button with a GPS and a Speaker that played audio from a SD-card:
 
 <details> 
-the updated code:
 
 ```
+#include <SparkFun_I2C_GPS_Arduino_Library.h>  //Use Library Manager or download here: https://github.com/sparkfun/SparkFun_I2C_GPS_Arduino_Library
+I2CGPS myI2CGPS;                               //Hook object to the library
+
+#include <TinyGPS++.h>  //From: https://github.com/mikalhart/TinyGPSPlus
+TinyGPSPlus gps;        //Declare gps object
+
+#include <Wire.h>
+#include <WiFi.h>
+
+#include "Adafruit_MQTT.h"
+#include "Adafruit_MQTT_Client.h"
+#include "Arduino.h"
+#include "DFRobotDFPlayerMini.h"
+
+#define WLAN_SSID "Iaac-Wifi"
+#define WLAN_PASS "EnterIaac22@"
+#define AIO_SERVER "io.adafruit.com"
+#define AIO_SERVERPORT 1883
+#define AIO_USERNAME "distel"
+#define AIO_KEY "aio_TepO334bZsxG6yr0rbkNh1ceuzMY"
+
+#define RXD2 16
+#define TXD2 17
+
+WiFiClient client;
+HardwareSerial mySoftwareSerial(2);
+
+DFRobotDFPlayerMini myDFPlayer;
+void printDetail(uint8_t type, int value);
+
+const char MQTT_SERVER[] PROGMEM = AIO_SERVER;
+const char MQTT_USERNAME[] PROGMEM = AIO_USERNAME;
+const char MQTT_PASSWORD[] PROGMEM = AIO_KEY;
+
+// Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
+Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_KEY);
+//Adafruit_MQTT_Subscribe gpsdata = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/gpsdata");
+//Adafruit_MQTT_Publish latitude = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/latitude");
+Adafruit_MQTT_Publish longitude = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/longitude");
+
+#define BUTTON_PIN 19
+bool butState = HIGH;
+
+void setup() {
+  pinMode(BUTTON_PIN, INPUT_PULLUP);
+
+  mySoftwareSerial.begin(9600, SERIAL_8N1, RXD2, TXD2);
+  //Serial2.begin(9600, SERIAL_8N1, RXD2, TXD2);
+
+  Serial.begin(115200);
+
+  if (myI2CGPS.begin() == false) {
+    Serial.println("GPS Module failed to respond. Please check wiring.");
+    while (1)
+      ;
+  }
+  Serial.println("GPS working!!");
+
+  Serial.println(F("Initializing DFPlayer ... (May take 3~5 seconds)"));
+  if (!myDFPlayer.begin(mySoftwareSerial)) {  //Use softwareSerial to communicate with mp3.
+    Serial.println(F("Unable to begin:"));
+    Serial.println(F("1.Please recheck the connection!"));
+    Serial.println(F("2.Please insert the SD card!"));
+    while (true)
+      ;
+  }
+  Serial.println(F("DFPlayer OK!!!"));
+
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(WLAN_SSID);
+  WiFi.begin(WLAN_SSID, WLAN_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+  Serial.println();
+  Serial.println("WiFi connected");
+  Serial.println("IP address: ");
+  Serial.println(WiFi.localIP());
+
+  myDFPlayer.volume(30);  //Set volume value. From 0 to 30
+  myDFPlayer.play(1);  //Play the first mp3
+}
+
+void MQTT_connect() {
+
+  int8_t ret;
+
+  // Stop if already connected.
+  if (mqtt.connected()) {
+    return;
+  }
+
+  Serial.print("Connecting to MQTT... ");
+  while ((ret = mqtt.connect()) != 0) {  // connect will return 0 for connected
+    Serial.println(mqtt.connectErrorString(ret));
+    Serial.println("Retrying MQTT connection in 5 seconds...");
+    mqtt.disconnect();
+    delay(5000);  // wait 5 seconds
+  }
+  Serial.println("MQTT Connected!");
+}
+
+void printDetail(uint8_t type, int value) {
+  switch (type) {
+    case TimeOut:
+      Serial.println(F("Time Out!"));
+      break;
+    case WrongStack:
+      Serial.println(F("Stack Wrong!"));
+      break;
+    case DFPlayerCardInserted:
+      Serial.println(F("Card Inserted!"));
+      break;
+    case DFPlayerCardRemoved:
+      Serial.println(F("Card Removed!"));
+      break;
+    case DFPlayerCardOnline:
+      Serial.println(F("Card Online!"));
+      break;
+    case DFPlayerPlayFinished:
+      Serial.print(F("Number:"));
+      Serial.print(value);
+      Serial.println(F(" Play Finished!"));
+      break;
+    case DFPlayerError:
+      Serial.print(F("DFPlayerError:"));
+      switch (value) {
+        case Busy:
+          Serial.println(F("Card not found"));
+          break;
+        case Sleeping:
+          Serial.println(F("Sleeping"));
+          break;
+        case SerialWrongStack:
+          Serial.println(F("Get Wrong Stack"));
+          break;
+        case CheckSumNotMatch:
+          Serial.println(F("Check Sum Not Match"));
+          break;
+        case FileIndexOut:
+          Serial.println(F("File Index Out of Bound"));
+          break;
+        case FileMismatch:
+          Serial.println(F("Cannot Find File"));
+          break;
+        case Advertise:
+          Serial.println(F("In Advertise"));
+          break;
+        default:
+          break;
+      }
+      break;
+    default:
+      break;
+  }
+}
+
+void loop() {
+  MQTT_connect();
+
+  while (myI2CGPS.available()) {  //available() returns the number of new bytes available from the GPS module
+    gps.encode(myI2CGPS.read());  //Feed the GPS parser
+  }
+
+  bool butNow = digitalRead(BUTTON_PIN);
+  if (butNow != butState) {
+    butState = butNow;
+
+    if (butNow == LOW) {
+      
+      String locData = String(gps.location.lng());
+      locData += ",";
+      locData += String(gps.location.lat());
+      longitude.publish(locData.c_str());
+      Serial.println(F("\nSending location "));
+      Serial.println(locData);
+    
+      myDFPlayer.play();
+      // if (myDFPlayer.available()) {
+      //   printDetail(myDFPlayer.readType(), myDFPlayer.read());  //Print the detail message from DFPlayer to handle different errors and states.
+      // }
+    }
+  }
+}
 
 ```
 </details> 
@@ -331,6 +837,22 @@ now we **[adafruit IO](https://learn.adafruit.com/welcome-to-adafruit-io/overvie
 research:
 
 **[against the white cube gallery](http://vibe-experience.com/)**
+
+audio-file:
+
+a useful **[youtube video](https://www.youtube.com/watch?v=kq2RLz65_w0)** we are inspired by. 
+
+to download the **[SoftwareSerial](https://forum.arduino.cc/t/where-to-download-softwareserial/379045)**
+
+the **[DFPPlayer library](https://github.com/DFRobot/DFRobotDFPlayerMini)**
+
+another **[DFPlibrary Mini](https://github.com/jonnieZG/DFPlayerMini)**
+
+and a **[SoftSerial library explanation](http://arduiniana.org/libraries/newsoftserial/)**
+
+and a **[wiki about the DFPplayer](https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DFR0299)**
+
+and last inispirational input was a **[piezo-speaker](https://forum.arduino.cc/t/piezo-speaker-push-button/115747/4)**
 
 GPS:
 
