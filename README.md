@@ -35,7 +35,7 @@ this time we come up with the idea of a (guerilla) stamp / attention-button a la
 
 **what we provide** 
 
-a portable guerilla tool that everyone can use to mark that they paid attention. That they recognize an entangled (hi)story that is not been paid enough attention to. 
+a portable guerilla stamp that everyone can use to mark that they paid attention. That they recognize an entangled (hi)story that is not been paid enough attention to. 
 
 # how we get there - in theory
 
@@ -55,13 +55,9 @@ The button has have a push-mechanism that when pressed, stamps a surface onto th
 
 Now we are translating our cardboard prototype into Rhino to be 3D printed. We do this all together, giving feedback on assembling, practicality, function and measurements and combining small dots of knowledges we have between the three of us. We export it as an st-file and set up the CURA-file to print it in the 3D-printers over night. 
 
-<img src="/imagery/3Dprinting.png" alt="drawing" width="600" alig="right"/>
-
 The next morning they are ready, yet there is a lot of work to do...
 
 The button exists mainly out of two parts. The top part and the down part. The top part is quit ok, the botton part we have to adjust. Because we don't know precicely the new measures which will depend on the electronics that need to fit, we create our Rhino model (which yesterday we easily did almost exclusively with the bollean-command) again - from scratch and with Grasshopper.
-
-<img src="/imagery/GHcollage.png" alt="drawing" width="600"/>
 
 furhermore, we adjust the walls, because we want that the speaker inside will be loud outside. So gaps are kind of essential. Ok, so far so good. Again, we export the stl-file (this time a bit more precise to have a smooth rounding) and upload the CURA-files onto the sd-cards and onto the printers to let them do their work over the night (sleep is fully overrated when being a electronic device).
 
@@ -69,7 +65,7 @@ furhermore, we adjust the walls, because we want that the speaker inside will be
 
 **for the speaker:**
 
-We need to make a set-up that includes a ESP32, a speaker, a DFPlayer Mini (SD card with MP3 files), a GPS and a button.
+We need to make a set-up that includes a ESP32, a speaker, a DFPlayer Mini (SD card with MP3 files), a GPS and a button. We break it into three different parts and make them work before assembling a final set-up. We code the speaker set-up, the button + led set-up, and the GPS set-up. On the 3rd and 4th day we put it all together hardware + software with the help of Victor and Daphne.
 
 We researched on some examples related to the DFPlayer Mini and Speaker. And, manged to start seing data related to the position of the GPS with the help of Edu.
 
@@ -821,15 +817,63 @@ now we **[adafruit IO](https://learn.adafruit.com/welcome-to-adafruit-io/overvie
 
 ### Button mechanics
 
+we mainly added a springs to the 3D printed object so the stamp will be only touching the surface when the button is pushed. This also carries a lid for ink to be carried around
+
 ### Stamp
+
+To make the stamp head, we used EVA foam & acrylic. First we drew up the design in illustrator then brought it over to Rhino. When the files were prepared we went to lasercut!
+
+Unfortunately, EVA foam is not on the “laser cutting settings board” so we had to do some tests to see what is the best. Edu gave us some base stats to start with: 
+
+• 40-60 power
+• 0.5-2 Speed
+• 5000-10,000 Hrtz
+
+We started off with the lowest settings for all of them, but the slow speed led to a lot of melting then shrinking of the material. We eventually landed on:
+
+• 60 power
+• 2 Speed
+• 10,000 Hrtz
+
+It is noted that speed had the most effect on the melting of the material. We believe it is because the longer EVA is exposed to heat, it gives it more opportunity to shrink.
+
+We then did the first trail of cutting the stamp out, but unfortunately because of this materials tendency to melt the attempt failed.
+
+We then enlarged the size of the letters & this attempt worked well. We also cut two layers of acrylic to place the letters onto. These plates had little cut outs on the side so we can easily change the face of of the stamp if we need to.
+
+Then we placed each letter onto the stamp plate and super glued them on. 
+
+Afterwards, we wanted to make **a stamp cover to hold ink and cover the stamp face**. The diameter was the same of the outer shell so it would sit on top. We rastered a smaller circle inside that is the diameter of the stamp plate to have a guide where we could put a thin plastic wall.
+
+We also cut a small circle of EVA foam to hold the ink in the stamp. 
+
+Once it was all assembled, we made some quick ink out of charcoal, water, and alchol to 1) test the stamps stamping ability and to see how well the EVA ink stamp pad would work - which it did not.
+
+EVA isn’t absorbent enough hold the ink + the stamp cover’s sides were too short to fit into the body of our machine. 
+
+Here you can see that the materials didn’t absorb in to the foam - but just sat on top. 
+
+The ink we made also wasn’t very compatible for the stamp and dried up very quickly, even if covered. 
+
+For the second iteration of the stamp cover, we elongated the stamp cover’s walls and decided to use felt as the ink pad. This ended up fitting quite snug onto the body and stays one with all the components put in place.
+
+We also added the QR to the stamp plate - which was quite the challenge as a QR code has a lot of pieces. So this time, instead of cutting out the individual letters, we instead tried to engrave the QR code into the EVA foam.
+
+Because we learned that speed was the main factor that made the EVA foam melt, we thought if we slowed down the laser we could get deep enough engravings that it would allow for easy stamping. Which fortunately for us - did work 😊
+
+The settings to get this type of engravings for EVA foam are:
+
+• 100 power
+• 40 Speed
+• 1000 Hrtz
 
 ## References & Resources
 
-research:
+**general research:**
 
 **[against the white cube gallery](http://vibe-experience.com/)**
 
-audio-file:
+**audio-file:**
 
 a useful **[youtube video](https://www.youtube.com/watch?v=kq2RLz65_w0)** we are inspired by. 
 
@@ -845,7 +889,7 @@ and a **[wiki about the DFPplayer](https://wiki.dfrobot.com/DFPlayer_Mini_SKU_DF
 
 and last inispirational input was a **[piezo-speaker](https://forum.arduino.cc/t/piezo-speaker-push-button/115747/4)**
 
-GPS:
+**GPS:**
 
 geo data logger vs. geo data tagger **[another helpful link?](https://www.instructables.com/Geo-Data-Logger-ArduinoGPSSDAccelerometer-to-l/)**
 
@@ -858,3 +902,5 @@ a person doing something similar with **[temperature data](https://www.cytron.io
 the ada fruit blink **[tutorial](https://learn.adafruit.com/quickstart-adafruit-io-wippersnapper/blink-a-led)**
 
 ne of our main **[manuals from adafruit IO](https://cdn-learn.adafruit.com/downloads/pdf/mqtt-adafruit-io-and-you.pdf)**. 
+
+**stamps:**
