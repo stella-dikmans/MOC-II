@@ -49,29 +49,19 @@ we are designing a portable device that functions as a button and carries all th
 
 The button has have a push-mechanism that when pressed, stamps a surface onto the surface the button is on. Simultaneously it will make a sound and by that call the attention. Before we move to 3D softwares and 3D printing (for the button) we design, built and iterated a cardboard prototype based on a “arcade style button" that be get from the fablab. we take measures and metrics to later pass this ideation to a 3D software.
 
-<img src="/imagery/cardboard.jpg" alt="drawing" width="600"/>
-
 ### 3D software - Rhino
 
 Now we are translating our cardboard prototype into Rhino to be 3D printed. We do this all together, giving feedback on assembling, practicality, function and measurements and combining small dots of knowledges we have between the three of us. We export it as an st-file and set up the CURA-file to print it in the 3D-printers over night. 
 
-<img src="/imagery/rhino.jpg" alt="drawing" width="200" alig="right"/>
-
-<img src="/imagery/electronics.jpg" alt="drawing" width="600"/>
-
-<img src="/imagery/3Dprinter.jpg" width="400" >
+<img src="/imagery/3Dprinting.png" alt="drawing" width="600" alig="right"/>
 
 The next morning they are ready, yet there is a lot of work to do...
 
 The button exists mainly out of two parts. The top part and the down part. The top part is quit ok, the botton part we have to adjust. Because we don't know precicely the new measures which will depend on the electronics that need to fit, we create our Rhino model (which yesterday we easily did almost exclusively with the bollean-command) again - from scratch and with Grasshopper.
 
-<img src="/imagery/grasshopper.png" alt="drawing" width="600"/>
+<img src="/imagery/GHcollage.png" alt="drawing" width="600"/>
 
 furhermore, we adjust the walls, because we want that the speaker inside will be loud outside. So gaps are kind of essential. Ok, so far so good. Again, we export the stl-file (this time a bit more precise to have a smooth rounding) and upload the CURA-files onto the sd-cards and onto the printers to let them do their work over the night (sleep is fully overrated when being a electronic device).
-
-<img src="/imagery/stl.png" alt="drawing" width="200"/>
-
-<img src="/imagery/rhino-updated.png" alt="drawing" width="600"/>
 
 ### Electronics
 
