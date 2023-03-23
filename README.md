@@ -883,8 +883,8 @@ TinyGPSPlus gps; //Declare gps object
 #define WLAN_PASS       "EnterIaac22@"
 #define AIO_SERVER      "io.adafruit.com"
 #define AIO_SERVERPORT  1883
-#define AIO_USERNAME    "distel"
-#define AIO_KEY         "aio_NPIl06oF5NrPaoVOf4qzDw4qIywe"
+#define AIO_USERNAME    "AIO_USERNAME"
+#define AIO_KEY         "AO_KEY"
 
 WiFiClient client;
 
