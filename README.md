@@ -406,9 +406,9 @@ ok, it seems possible. With the help of Edu, we compile the hardware needed to o
 
 **translating feather data to digital platform**
 
-the part that was supposed to be the most easy part (translating the GPS data into a digital platform and into a simple data-sheet) turned out to take us a whole morning of searching in old codes, reading and watching tutorials and mixing it up to create our own code. Without Daphne and all her patience this would have never worked out. And then the end of course Victor who came for half an hour and brough some order into our chaos - and sieheda, the code works. One of our main **[manuals was this](https://cdn-learn.adafruit.com/downloads/pdf/mqtt-adafruit-io-and-you.pdf)**. 
+The part that was supposed to be the most easy part (translating the GPS data into a digital platform and into a simple data-sheet) turned out to take us a whole morning of searching in old codes, reading and watching tutorials and mixing it up to create our own code. Without Daphne and all her patience this would have never worked out. And then the end of course Victor who came for half an hour and brough some order into our chaos - and *siehe da*, the code works. One of our main **[manuals was this](https://cdn-learn.adafruit.com/downloads/pdf/mqtt-adafruit-io-and-you.pdf)**. 
 
-the code:
+the code at this stage:
 
 <details> 
 
@@ -573,7 +573,7 @@ void loop() {
 ```
 </details> 
 
-What it does atm (explanation of unknown names and words are following): 
+What does this code atm? (explanation of unknown names and words are following): 
 
 • it sets up a ***wifi*** (because we wont have a sim-card in our stamp but in order to load the data directly into the digital world, a wireless connection is needed) - thus there is the possibility of chosinng a mobile-hotspot or to add the credentials of a local wifi. 
 
@@ -583,11 +583,9 @@ What it does atm (explanation of unknown names and words are following):
 
 • furthermore we set up a ***button function*** to make sure that the GPS data is not being uploaded onto our digital platform constantly but only when we push. = bool butState part in the code. We make sure that the publishing function is being activated when the button is pushed and released. 
 
-next we research platforms that enable us to mapp our feather data in on online-and-real-time-updating map (to be an issue!). We try out various road. The **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** offers a mapping fuction, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. To rewrite their code with our **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)** seems a bit overwhelming, after a few trials, we leave it to that and search for something else.
+I have done some research on platforms that enable us to map our feather data in on online-and-real-time-updating map (to be an issue!). We try out various road. The **[adafruit IO WipperSnapper](https://io.adafruit.com/distel/wippersnapper)** offers a mapping fuction, yet it turns out that they use another GPS-sensor and when trying to work with their file, it does nto run because our GPS is not a **[FONA GPS](https://cdn-learn.adafruit.com/downloads/pdf/adafruit-io-basics-gps.pdf)**. To rewrite their code with our **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)** seems a bit overwhelming, after a few trials, we leave it to that and search for something else. 
 
-<img src="/imagery/adafruiitIO.png" alt="drawing" width="600"/>
-
-we anyway create a ***adafruit IO account*** with ***two feeds (one for longitude and one for latitude)*** and ***one dashboard (in which both are combined)***. We see the data longitude, latitude, date and time when we push the buttom that is linked to the feather appear in our feeds and dashbard. It turns out, no need for all of that. We are making our life more complex than it is. So we rewrite our code just a tiny bit and sent *latiude,longitude*-data as ***one line*** to our ***longitude feed***. 
+we still use the ***adafruit IO account*** with ***two feeds (one for longitude and one for latitude)*** and ***one dashboard (in which both are combined)***. This is to get the data from the feather into the digital. Now we can see digitally appearing in the adafruit IO feeds the longitude, latitude, date and time when we push the buttom that is linked to the feather. In the end, we use the Adafruit IO only as a first translation to the online world and thus we only need one feed (no dasshboard or different feeds). For that, we rewrite our code just a tiny bit and sent *latiude,longitude*-data as ***one line*** to our ***longitude feed***. And this feed can be linked to a google-sheet in which the data will appear clear and organized. 
 
 The platform **[IFTTT](https://ifttt.com/)** offers multiple ways to link data to online services. One of them is the linkage of adafruit account to a googlsheet. And in google again, their googlemaps has a **[mymaps](https://www.google.com/maps/d/u/0/?hl=en)** function. In this, we can create a "private" map that be can publish but with which we can subscribe to a google spreadsheet that we make (from our drive). Problem: the map is not updated automatically, neither is the spreadsheet (yet) meaning we have to update the map manually in order to update the pins on the map. So what we need is a way, code, trick to automate the data-translation from GPS to google spreadsheet AND a real-life update from google spreadsheet to the map created in mymaps. 
 
@@ -601,9 +599,9 @@ In IFTTT we edit out **[applet] (https://ifttt.com/explore/Appletsin)** (which i
 
 summed up:
 
-we have a button that, when pushed, sends a GPS location to an ***adafruit IO account*** with the ***feed longitude***. Via IFTTT, we send the data into a googlesheet which uses the XSmapping add-on to drop pins at the GPS data (updating it every hour). 
+we have a button that, when pushed, sends a GPS location to an ***adafruit IO account*** with the ***feed longitude***. Via IFTTT, we send the data into a googlesheet which uses the XSmapping add-on to drop pins at the GPS data (updating it every hour). Furhermore, a audio-file is being played and a QR-code is being stamped. 
 
-<img src="/imagery/triangle.png" alt="drawing" width="500"/>
+<img src="../imageryII/systemdiagram.png" alt="drawing" width="500"/>
 
 *combining speaker, GPS and button* 
 
@@ -804,6 +802,251 @@ void loop() {
 ```
 </details> 
 
+now there is still one thing to do: releasing the feather from the computer (in order to make it portable). That again requires a battery. And well, as we are working with wifi (wether that is a local source or a hotspot connection), the battery will pretty soon be dead because it will constantly search for signals around. To solvve that problem, josep helps me to programm the device so that only when pushing the button, the battery will turn on, it will search for wifi, connect with MQTT and with that send data to the Adafruit IO before after waiting for a few seconds it will fall to sleep again. In arduino itself, there is an example code called ExternalWakeUp. This is how you find it:
+
+<img src="../imageryII/examplecode.png" alt="drawing" width="400"/>
+
+our favorite **[tutorial for this](https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/)**
+
+well, so we try this out a few times untill it works and then combine it with our code for the GPS and audio. It does not work anymore. Bueno, we recognize, that it might take some time for the wifi to connect and the MQTT to establish a connection to we programm some delays so our MOC will not go to sleep again too soon. Now it works. 
+
+**problem**
+
+when assembling our handy device, it appears that in the end all our electroics are too much for the 3D printed model of our portable stamp. With battery and speaker and feather and GPS and all the cables it get pretty crowded and stuffed in there. As soon as we close it off, the conenction fails - probably one of the thousand little colourful cables got lost their pins and *schwups*, everything is broken. After a few trials we decide to take out the microphone. We anyway have an issue with its sound-file, somehow it does not perfectly play the whole piecce and our "that's soooo colonial" sentence gets a bit lost. So, we (for now) decide to focus on the essentials, the stamp, the QR-code and the GPS-signal for the map. 
+
+therefore, our code shrinks a bit and looks like this:
+
+<details> 
+
+```
+/*
+  Deep Sleep with External Wake Up
+  =====================================
+  This code displays how to use deep sleep with
+  an external trigger as a wake up source and how
+  to store data in RTC memory to use it over reboots
+
+  This code is under Public Domain License.
+
+  Hardware Connections
+  ======================
+  Push Button to GPIO 33 pulled down with a 10K Ohm
+  resistor
+
+  NOTE:
+  ======
+  Only RTC IO can be used as a source for external wake
+  source. They are pins: 0,2,4,12-15,25-27,32-39.
+
+  Author:
+  Pranav Cherukupalli <cherukupallip@gmail.com>
+*/
+
+//#define BUTTON_PIN_BITMASK 0x200000000 // 2^33 in hex
+
+RTC_DATA_ATTR int bootCount = 0;
+
+/*
+  Method to print the reason by which ESP32
+  has been awaken from sleep
+*/
+void print_wakeup_reason() {
+  esp_sleep_wakeup_cause_t wakeup_reason;
+
+  wakeup_reason = esp_sleep_get_wakeup_cause();
+
+  switch (wakeup_reason)
+  {
+    case ESP_SLEEP_WAKEUP_EXT0 : Serial.println("Wakeup caused by external signal using RTC_IO"); break;
+    case ESP_SLEEP_WAKEUP_EXT1 : Serial.println("Wakeup caused by external signal using RTC_CNTL"); break;
+    case ESP_SLEEP_WAKEUP_TIMER : Serial.println("Wakeup caused by timer"); break;
+    case ESP_SLEEP_WAKEUP_TOUCHPAD : Serial.println("Wakeup caused by touchpad"); break;
+    case ESP_SLEEP_WAKEUP_ULP : Serial.println("Wakeup caused by ULP program"); break;
+    default : Serial.printf("Wakeup was not caused by deep sleep: %d\n", wakeup_reason); break;
+  }
+}
+
+
+#include <SparkFun_I2C_GPS_Arduino_Library.h> //Use Library Manager or download here: https://github.com/sparkfun/SparkFun_I2C_GPS_Arduino_Library
+I2CGPS myI2CGPS; //Hook object to the library
+
+#include <TinyGPS++.h> //From: https://github.com/mikalhart/TinyGPSPlus
+TinyGPSPlus gps; //Declare gps object
+
+#include <Wire.h>
+#include <WiFi.h>
+
+#include "Adafruit_MQTT.h"
+#include "Adafruit_MQTT_Client.h"
+
+#define WLAN_SSID       "Iaac-Wifi"
+#define WLAN_PASS       "EnterIaac22@"
+#define AIO_SERVER      "io.adafruit.com"
+#define AIO_SERVERPORT  1883
+#define AIO_USERNAME    "distel"
+#define AIO_KEY         "aio_NPIl06oF5NrPaoVOf4qzDw4qIywe"
+
+WiFiClient client;
+
+const char MQTT_SERVER[] PROGMEM = AIO_SERVER;
+const char MQTT_USERNAME[] PROGMEM = AIO_USERNAME;
+const char MQTT_PASSWORD[] PROGMEM = AIO_KEY;
+
+// Setup the MQTT client class by passing in the WiFi client and MQTT server and login details.
+Adafruit_MQTT_Client mqtt(&client, AIO_SERVER, AIO_SERVERPORT, AIO_USERNAME, AIO_KEY);
+//Adafruit_MQTT_Subscribe gpsdata = Adafruit_MQTT_Subscribe(&mqtt, AIO_USERNAME "/feeds/gpsdata");
+Adafruit_MQTT_Publish latitude = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/latitude");
+Adafruit_MQTT_Publish longitude = Adafruit_MQTT_Publish(&mqtt, AIO_USERNAME "/feeds/longitude");
+
+int lastPost = 0;
+
+#define BUTTON_PIN 33
+bool butState = HIGH;
+
+void setup() {
+  Serial.begin(115200);
+  delay(1000); //Take some time to open up the Serial Monitor
+  pinMode(33, INPUT_PULLUP);
+
+  if (myI2CGPS.begin() == false) {
+    Serial.println("GPS Module failed to respond. Please check wiring.");
+    while (1);
+  }
+
+  Serial.println("GPS working!!");
+
+  Serial.println();
+  Serial.println();
+  Serial.print("Connecting to ");
+  Serial.println(WLAN_SSID);
+
+  WiFi.begin(WLAN_SSID, WLAN_PASS);
+  while (WiFi.status() != WL_CONNECTED) {
+    delay(500);
+    Serial.print(".");
+  }
+
+  Serial.println();
+  Serial.println("WiFi connected");
+  Serial.println("IP address: "); Serial.println(WiFi.localIP());
+
+
+  //Increment boot number and print it every reboot
+  ++bootCount;
+  Serial.println("Boot number: " + String(bootCount));
+
+  //Print the wakeup reason for ESP32
+  print_wakeup_reason();
+
+  delay(6000);
+
+  sendData();
+  delay(6000);
+
+  /*
+    First we configure the wake up source
+    We set our ESP32 to wake up for an external trigger.
+    There are two types for ESP32, ext0 and ext1 .
+    ext0 uses RTC_IO to wakeup thus requires RTC peripherals
+    to be on while ext1 uses RTC Controller so doesnt need
+    peripherals to be powered on.
+    Note that using internal pullups/pulldowns also requires
+    RTC peripherals to be turned on.
+  */
+  esp_sleep_enable_ext0_wakeup(GPIO_NUM_33, 0); //1 = High, 0 = Low
+
+  //If you were to use ext1, you would use it like
+  //esp_sleep_enable_ext1_wakeup(BUTTON_PIN_BITMASK,ESP_EXT1_WAKEUP_ANY_HIGH);
+
+  //Go to sleep now
+  Serial.println("Going to sleep now");
+  esp_deep_sleep_start();
+  Serial.println("This will never be printed");
+}
+
+void loop() {
+  //This is not going to be called
+}
+
+void MQTT_connect() {
+
+  int8_t ret;
+
+  // Stop if already connected.
+  if (mqtt.connected()) {
+    return;
+  }
+
+  Serial.print("Connecting to MQTT... ");
+  while ((ret = mqtt.connect()) != 0) { // connect will return 0 for connected
+    Serial.println(mqtt.connectErrorString(ret));
+    Serial.println("Retrying MQTT connection in 5 seconds...");
+    mqtt.disconnect();
+    delay(5000); // wait 5 seconds
+  }
+  Serial.println("MQTT Connected!");
+}
+
+//Display new GPS info
+void displayInfo()
+{
+  //We have new GPS data to deal with!
+  Serial.println();
+
+  if (gps.time.isValid())
+  {
+    Serial.print(F("Date: "));
+    Serial.print(gps.date.month());
+    Serial.print(F("/"));
+    Serial.print(gps.date.day());
+    Serial.print(F("/"));
+    Serial.print(gps.date.year());
+
+    Serial.print((" Time: "));
+    if (gps.time.hour() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.hour());
+    Serial.print(F(":"));
+    if (gps.time.minute() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.minute());
+    Serial.print(F(":"));
+    if (gps.time.second() < 10) Serial.print(F("0"));
+    Serial.print(gps.time.second());
+
+    Serial.println(); //Done printing time
+  }
+  else
+  {
+    Serial.println(F("Time not yet valid"));
+  }
+
+  if (gps.location.isValid()) {
+    Serial.print("Location: ");
+    Serial.print(gps.location.lat(), 6);
+    Serial.print(F(", "));
+    Serial.print(gps.location.lng(), 6);
+    Serial.println();
+  }
+  else {
+    Serial.println(F("Location not yet valid"));
+  }
+}
+
+void sendData() {
+  MQTT_connect();
+
+  while (myI2CGPS.available()) {//available() returns the number of new bytes available from the GPS module
+    gps.encode(myI2CGPS.read()); //Feed the GPS parser
+  }
+  String locData = String(gps.location.lat());
+  locData += ",";
+  locData += String(gps.location.lng());
+  longitude.publish(locData.c_str());
+  Serial.println(F("\nSending location "));
+  Serial.println(locData);
+}
+
+```
+</details> 
 
 ### some thoughts on blackboxing and stupifying citizens
 
@@ -811,9 +1054,9 @@ focussing on protocolls rather than on platforms might be sometimes a more time 
 
 if in the future we want to bypass making 4 different accounts on various websited and crearing complex detours that are slowing down the processing of our data from one place to another, we can do some deeper research towards protocolls. 
 
-**how to post mqtt data digitally and accessibly? (in a sheet, a map, a webpage...)**
+**how to post mqtt data digitally and accessibly? (in a sheet, a map, a webpage...) is the actual questiona and there seems to be no need for companies such as google to translate anything**
 
-now we **[adafruit IO](https://learn.adafruit.com/welcome-to-adafruit-io/overview)** (***account 1***)that started as a platform to make information of these simple protocolls available to citizens. Yet, it seems they are as well developinig more and more patters that seerve to hide the simplicity and accessiibility of code-fuctions. We used **[IFTT](https://ifttt.com/explorehttps://ifttt.com/explore)** (***account 2***) to translate the data that our feather uploaded into adafruit IO into a **[googlesheet](https://docs.google.com/spreadsheets/)** (***account 3***). Then we used a googlesheet add-on from **[theXS mapping](https://www.thexs.ca/xsmapping)** whose service offers us to mapp the data of our googlesheet in real-time (well actually only every hour) in their mapps - whose are linked to google maps. 
+Instead of using **[Adafruit IO](https://learn.adafruit.com/welcome-to-adafruit-io/overview)** (***account 1***) that started of as a platform to make information of these simple protocolls available to citizens, yet was tragged into patters that serve to hide the simplicity and accessiibility of code-fuctions, or **[IFTT](https://ifttt.com/explorehttps://ifttt.com/explore)** (***account 2***) to translate the data that our feather uploaded into adafruit IO into a **[googlesheet](https://docs.google.com/spreadsheets/)** (***account 3***) that is thus is with the help of an add-on from **[theXS mapping](https://www.thexs.ca/xsmapping)** linked to google maps,  it might be simpler (that does not mean easier but in the end maybe less time-intensive) to go back to open-source services. Such as **[leaflets](https://kuldeep15.wordpress.com/2018/01/10/leaflet-maps-with-websocket-mqtt-integration/)** that are explainend very well by some **[GitHub people](https://github.com/perliedman/leaflet-realtime)** willing to share their knowledge and **[OpenStreetMap](https://www.openstreetmap.org/#map=6/40.007/-2.488)** that is in contrary to google-maps a map that is built on the data users voluntarily feed it with. Here is a **[introduction](https://wiki.openstreetmap.org/wiki/Upload_GPS_tracks)** to how GPS-track with these kind of sources. 
 
 ### Button mechanics
 
@@ -904,3 +1147,16 @@ the ada fruit blink **[tutorial](https://learn.adafruit.com/quickstart-adafruit-
 ne of our main **[manuals from adafruit IO](https://cdn-learn.adafruit.com/downloads/pdf/mqtt-adafruit-io-and-you.pdf)**. 
 
 **stamps:**
+
+**battery:**
+random nerd tutorials **[are just the best](https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/)**
+
+**for next time:**
+
+**[leaflets](https://kuldeep15.wordpress.com/2018/01/10/leaflet-maps-with-websocket-mqtt-integration/)** 
+
+**[leaflet GitHub people](https://github.com/perliedman/leaflet-realtime)** 
+
+**[OpenStreetMap](https://www.openstreetmap.org/#map=6/40.007/-2.488)** 
+
+**[introduction to openstreetmaps](https://wiki.openstreetmap.org/wiki/Upload_GPS_tracks)** 
