@@ -31,11 +31,13 @@ attributes: portable; interactive; respectful; fun; triggering
 
 this time we come up with the idea of a (guerilla) stamp / attention-button a la **[that was easy](https://www.youtube.com/watch?v=NojiCsZQSr8)**. A person pushes our button that at the same time is a stamp. Thus pressing onto the button leaves a print on the surface the button is put upon. Through the push-mechanism, speaker is activated that says something (provoking) and the GPS location of the user is added to a *MOC Map*. The image the stamp stamps is a QR-code (and potentially a provocing sentence) that leads directlly to the map on which the user will encounter their location as a pin as well as all ther pins of prior users. 
 
-<img src="/imagery/teams.png" width="400" >
+<img src="/imagery/teams.png" width="600" >
 
 **what we provide** 
 
 a portable guerilla stamp that everyone can use to mark that they paid attention. That they recognize an entangled (hi)story that is not been paid enough attention to. 
+
+<img src="/imagery/stamp.JPG" width="600" >
 
 # how we get there - in theory
 
@@ -57,9 +59,13 @@ Now we are translating our cardboard prototype into Rhino to be 3D printed. We d
 
 The next morning they are ready, yet there is a lot of work to do...
 
+<img src="/imagery/3Dprinting.png" alt="drawing" width="600"/>
+
 The button exists mainly out of two parts. The top part and the down part. The top part is quit ok, the botton part we have to adjust. Because we don't know precicely the new measures which will depend on the electronics that need to fit, we create our Rhino model (which yesterday we easily did almost exclusively with the bollean-command) again - from scratch and with Grasshopper.
 
 furhermore, we adjust the walls, because we want that the speaker inside will be loud outside. So gaps are kind of essential. Ok, so far so good. Again, we export the stl-file (this time a bit more precise to have a smooth rounding) and upload the CURA-files onto the sd-cards and onto the printers to let them do their work over the night (sleep is fully overrated when being a electronic device).
+
+<img src="/imagery/GHcollage.png" alt="drawing" width="600"/>
 
 ### Electronics
 
@@ -249,10 +255,7 @@ void loop() {
 ```
 </details> 
 
-
-
 ok, finally we have one code that connects the button with the audio-file:
-
 
 PINS USED:
 
@@ -267,8 +270,6 @@ TXD2 17
 <details> 
 
 ```
-
-
 #include "Arduino.h"
 //#include "SoftwareSerial.h"
 #include "DFRobotDFPlayerMini.h"
@@ -400,9 +401,7 @@ what we need is to record the geolocation and the time (through a GPS in the dev
 
 ok, it seems possible. With the help of Edu, we compile the hardware needed to obtain a GPS signal. We use our adafruiit featherboard and a **[Qwiic GPS SparkFun](https://learn.sparkfun.com/tutorials/sparkfun-gps-breakout---xa1110-qwiic-hookup-guide?_ga=2.201024366.1763643038.1678813580-1396006468.1678813580#hardware-overview)**. We install some libraries linked to this specific GPS into our arduino app and run a few different example codes to see what we get. After few trials, it works (we have to leave the building though to get our location). So we have a GPS that gives us the date, time, longitute and altitude data. It's a start.
 
-<img src="/imagery/GPSsuccessI.png" alt="drawing" width="600"/>
-
-<img src="/imagery/GPSsuccessII.png" alt="drawing" width="600"/>
+<img src="/imagery/GPSsuccess.png" alt="drawing" width="600"/>
 
 **translating feather data to digital platform**
 
@@ -569,7 +568,6 @@ void loop() {
   }
 }
 
-
 ```
 </details> 
 
@@ -587,11 +585,13 @@ I have done some research on platforms that enable us to map our feather data in
 
 we still use the ***adafruit IO account*** with ***two feeds (one for longitude and one for latitude)*** and ***one dashboard (in which both are combined)***. This is to get the data from the feather into the digital. Now we can see digitally appearing in the adafruit IO feeds the longitude, latitude, date and time when we push the buttom that is linked to the feather. In the end, we use the Adafruit IO only as a first translation to the online world and thus we only need one feed (no dasshboard or different feeds). For that, we rewrite our code just a tiny bit and sent *latiude,longitude*-data as ***one line*** to our ***longitude feed***. And this feed can be linked to a google-sheet in which the data will appear clear and organized. 
 
-The platform **[IFTTT](https://ifttt.com/)** offers multiple ways to link data to online services. One of them is the linkage of adafruit account to a googlsheet. And in google again, their googlemaps has a **[mymaps](https://www.google.com/maps/d/u/0/?hl=en)** function. In this, we can create a "private" map that be can publish but with which we can subscribe to a google spreadsheet that we make (from our drive). Problem: the map is not updated automatically, neither is the spreadsheet (yet) meaning we have to update the map manually in order to update the pins on the map. So what we need is a way, code, trick to automate the data-translation from GPS to google spreadsheet AND a real-life update from google spreadsheet to the map created in mymaps. 
+The platform **[IFTTT](https://ifttt.com/)** offers multiple ways to link data to online services. One of them is the linkage of adafruit account to a googlsheet. And in google again, their googlemaps has a **[mymaps](https://www.google.com/maps/d/u/0/?hl=en)** function. In this, we can create a "private" map that be can publish but with which we can subscribe to a google spreadsheet that we make (from our drive). Problem: the map is not updated automatically, neither is the spreadsheet (yet) meaning we have to update the map manually in order to update the pins on the map. So what we need is a way, code, trick to automate the data-translation from GPS to google spreadsheet AND a real-life update from google spreadsheet to the map created in mymaps.
+
+<img src="/imagery/adafruitIO.png" alt="drawing" width="600"/>
 
 A little research further we stumple upon a googlesheet add-on from **[theXS mapping](https://www.thexs.ca/xsmapping)** whose service offers us to mapp the data of our googlesheet in real-time in their maps - whose are linked to google maps (yet it somehow isnt mymaps anymore - however - XSmaps is fine by me). This seems to automate the process from spread-sheet to map - first moment of succcess = we see the coordinates on the map as little pins. Little downer, this automated process updates only hourly (if you dont pay for a pro-account) - not in real real time. But ok, es lo que hay. Somewhere we need to make compromises it seems.
 
-<img src="/imagery/maptest1.png" alt="drawing" width="600"/>
+<img src="/imagery/triangle.png" alt="drawing" width="600"/>
 
 In IFTTT we edit out **[applet] (https://ifttt.com/explore/Appletsin)** (which is just the name IFTTT gave to the linking-process). We edit and say if: there is new data in the adadfruit longitude feed, then add a new row into the latitude googlesheet in our drive (folder - location). Dont get confused with the names - its all a but messed up we know.
 
@@ -601,7 +601,7 @@ summed up:
 
 we have a button that, when pushed, sends a GPS location to an ***adafruit IO account*** with the ***feed longitude***. Via IFTTT, we send the data into a googlesheet which uses the XSmapping add-on to drop pins at the GPS data (updating it every hour). Furhermore, a audio-file is being played and a QR-code is being stamped. 
 
-<img src="../imageryII/systemdiagram.png" alt="drawing" width="500"/>
+<img src="/imagery/systemdiagram.png" alt="drawing" width="500"/>
 
 *combining speaker, GPS and button* 
 
@@ -804,7 +804,7 @@ void loop() {
 
 now there is still one thing to do: releasing the feather from the computer (in order to make it portable). That again requires a battery. And well, as we are working with wifi (wether that is a local source or a hotspot connection), the battery will pretty soon be dead because it will constantly search for signals around. To solvve that problem, josep helps me to programm the device so that only when pushing the button, the battery will turn on, it will search for wifi, connect with MQTT and with that send data to the Adafruit IO before after waiting for a few seconds it will fall to sleep again. In arduino itself, there is an example code called ExternalWakeUp. This is how you find it:
 
-<img src="../imageryII/examplecode.png" alt="drawing" width="400"/>
+<img src="/imagery/examplecode.png" alt="drawing" width="400"/>
 
 our favorite **[tutorial for this](https://randomnerdtutorials.com/esp32-deep-sleep-arduino-ide-wake-up-sources/)**
 
